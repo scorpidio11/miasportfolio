@@ -264,6 +264,17 @@
     .reveal.in { opacity: 1; transform: translateY(0); }
 
     /* ─── ABOUT ───────────────────────────── */
+    #aboutScene { position: relative; }
+    #about {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 15;
+      background: var(--dark-bg);
+      overflow: hidden;
+    }
+    .about-reading-driver { height: 80vh; }
+    .about-blur-driver    { height: 80vh; }
+
     .dark-section .section-title { color: var(--dark-text); }
     .dark-section .section-num { color: rgba(248,248,244,0.3); }
     .dark-section .section-header { border-bottom-color: var(--border-dark); }
@@ -311,7 +322,10 @@
       height: 100vh;
       overflow: hidden;
       background: #080808;
+      opacity: 0;
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
+    .work-sticky.work-visible { opacity: 1; }
 
     /* Blurred background layers */
     .work-bgs {
@@ -344,14 +358,14 @@
     /* Section header top */
     .work-section-header {
       position: absolute;
-      top: 0;
+      top: 93px;
       left: var(--gutter);
       right: var(--gutter);
       z-index: 10;
       display: flex;
       align-items: baseline;
       gap: 20px;
-      padding: 28px 0;
+      padding: 20px 0;
       border-bottom: 1px solid rgba(248,248,244,0.10);
     }
 
@@ -381,7 +395,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       align-items: center;
-      padding: 0 var(--gutter);
+      padding: 190px var(--gutter) 80px;
       gap: 80px;
     }
 
@@ -394,8 +408,8 @@
 
     .work-images-stack {
       position: relative;
-      width: min(46vh, 500px);
-      height: min(46vh, 500px);
+      width: min(62vh, 680px);
+      height: min(62vh, 680px);
     }
 
     .work-img-layer {
@@ -455,7 +469,7 @@
 
     .work-proj-title {
       font-family: var(--font-display);
-      font-size: clamp(34px, 3.4vw, 54px);
+      font-size: clamp(27px, 2.7vw, 43px);
       font-weight: 400;
       letter-spacing: -0.03em;
       line-height: 1.05;
@@ -690,6 +704,7 @@
   <div class="content-wrapper">
 
     <!-- 01 ABOUT -->
+    <div id="aboutScene">
     <section class="section dark-section" id="about">
       <div class="section-header reveal">
         <span class="section-num">01</span>
@@ -714,6 +729,9 @@
         </div>
       </div>
     </section>
+    <div class="about-reading-driver"></div>
+    <div class="about-blur-driver"></div>
+    </div>
 
     <!-- 02 SELECTED WORK -->
     <section id="work" class="work-section">
@@ -869,7 +887,7 @@
 
     addEventListener('scroll', () => {
       if (rafId) cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(() => { update(); updateWork(); });
+      rafId = requestAnimationFrame(() => { update(); updateWork(); updateAbout(); });
     }, { passive: true });
 
     // Work section: scroll-driven project transitions
@@ -907,6 +925,45 @@
       if (workFill) workFill.style.width = `${progress * 100}%`;
     }
 
+    // About section: blur-out driven by scroll driver inside #aboutScene
+    const aboutScene   = document.getElementById('aboutScene');
+    const aboutSection = document.getElementById('about');
+    const workStickyEl = workSection.querySelector('.work-sticky');
+    let aboutExitProgress = 0;
+
+    function updateAbout() {
+      const sceneRect     = aboutScene.getBoundingClientRect();
+      const sceneScrolled = -sceneRect.top;
+
+      if (sceneScrolled <= 0) {
+        aboutSection.style.filter    = '';
+        aboutSection.style.opacity   = '';
+        aboutSection.style.transform = '';
+        aboutExitProgress = 0;
+        workStickyEl.classList.remove('work-visible');
+        return;
+      }
+
+      const readingPhase = innerHeight * 0.8; // 80vh — user reads About before blur starts
+      const blurPhase    = innerHeight * 0.8; // 80vh — blur completes over this distance
+      const blurScrolled = Math.max(0, sceneScrolled - readingPhase);
+      aboutExitProgress  = Math.max(0, Math.min(1, blurScrolled / blurPhase));
+
+      if (aboutExitProgress <= 0) {
+        aboutSection.style.filter    = '';
+        aboutSection.style.opacity   = '';
+        aboutSection.style.transform = '';
+      } else {
+        aboutSection.style.filter    = `blur(${aboutExitProgress * 22}px)`;
+        aboutSection.style.opacity   =  1 - aboutExitProgress * 0.8;
+        aboutSection.style.transform = `scale(${1 - aboutExitProgress * 0.03})`;
+      }
+
+      // Reveal work only when blur is done AND work is already locked at top (no sliding up)
+      const workRect = workSection.getBoundingClientRect();
+      workStickyEl.classList.toggle('work-visible', aboutExitProgress >= 0.98 && workRect.top <= 5);
+    }
+
     // Scroll reveal for sections
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
@@ -918,6 +975,8 @@
     }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    updateAbout();
   </script>
 </body>
 </html>
