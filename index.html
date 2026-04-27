@@ -52,8 +52,9 @@
       z-index: 200;
       padding: 28px var(--gutter);
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       align-items: center;
+      gap: 40px;
     }
 
     nav::before {
@@ -68,7 +69,6 @@
 
     nav.scrolled::before { opacity: 0.94; }
     nav.nav-dark::before { background: var(--dark-bg); opacity: 0.96; }
-    nav.nav-dark .nav-logo { color: var(--dark-text); }
     nav.nav-dark .nav-links a { color: var(--dark-text); }
 
     nav.nav-hidden {
@@ -78,15 +78,21 @@
     }
 
     .nav-logo {
-      font-family: var(--font-display);
-      font-size: 17px;
-      letter-spacing: -0.02em;
-      color: var(--text);
       text-decoration: none;
       opacity: 0;
       animation: fadeDown 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s forwards;
-      transition: color 0.35s ease;
+      flex-shrink: 0;
     }
+
+    .nav-logo-img {
+      height: 36px;
+      width: auto;
+      display: block;
+      filter: brightness(0);
+      transition: filter 0.4s ease;
+    }
+
+    nav.nav-dark .nav-logo-img { filter: brightness(0) invert(1); }
 
     .nav-links {
       display: flex;
@@ -639,7 +645,9 @@
 
   <!-- NAV -->
   <nav id="mainNav">
-    <a href="#" class="nav-logo">Mia Mo</a>
+    <a href="#" class="nav-logo">
+      <img src="images/logo.svg" alt="Mia Mo" class="nav-logo-img">
+    </a>
     <ul class="nav-links">
       <li><a href="#about">01 About</a></li>
       <li><a href="#work">02 Work</a></li>
