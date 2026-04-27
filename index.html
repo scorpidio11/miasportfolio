@@ -330,9 +330,11 @@
       overflow: hidden;
       background: #080808;
       opacity: 0;
-      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      filter: blur(18px);
+      transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+                  filter  1s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .work-sticky.work-visible { opacity: 1; }
+    .work-sticky.work-visible { opacity: 1; filter: blur(0px); }
 
     /* Blurred background layers */
     .work-bgs {
