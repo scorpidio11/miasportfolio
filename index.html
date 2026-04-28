@@ -4,6 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mia Mo — Digital Designer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['EditorialNew', 'Georgia', "'Times New Roman'", 'serif'],
+            body: ['DM Sans', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+          },
+          colors: {
+            'site-bg':   '#f3f4ef',
+            'site-text': '#222222',
+            'dark-bg':   '#111111',
+            'dark-text': '#f8f8f4',
+            'muted':     '#8a8a82',
+          },
+          gridTemplateColumns: {
+            'about': '5fr 4fr',
+            'work':  '1.1fr 0.9fr',
+          }
+        }
+      }
+    }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
@@ -51,10 +75,6 @@
       top: 0; left: 0; right: 0;
       z-index: 200;
       padding: 28px var(--gutter);
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      gap: 40px;
     }
 
     nav::before {
@@ -69,7 +89,8 @@
 
     nav.scrolled::before { opacity: 0.94; }
     nav.nav-dark::before { background: var(--dark-bg); opacity: 0.96; }
-    nav.nav-dark .nav-links a { color: var(--dark-text); }
+    nav.nav-dark .nav-links a { color: var(--dark-text); opacity: 1; }
+    nav.nav-work::before { opacity: 0 !important; }
 
     nav.nav-hidden {
       opacity: 0;
@@ -93,12 +114,6 @@
     }
 
     nav.nav-dark .nav-logo-img { filter: brightness(0) invert(1); }
-
-    .nav-links {
-      display: flex;
-      gap: 40px;
-      list-style: none;
-    }
 
     .nav-links li {
       opacity: 0;
@@ -129,7 +144,6 @@
       pointer-events: auto;
     }
 
-    /* Left and right curtain panels */
     .hero-panel {
       position: absolute;
       inset: 0;
@@ -137,9 +151,6 @@
       padding: 0 var(--gutter);
       padding-top: 140px;
       padding-bottom: 100px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
       will-change: transform;
       overflow: hidden;
     }
@@ -173,17 +184,8 @@
     .hero-sub { font-size: 0.56em; }
 
     .hero-meta {
-      display: flex;
-      gap: 64px;
-      margin-top: 72px;
       opacity: 0;
       animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.9s forwards;
-    }
-
-    .hero-meta-item {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
     }
 
     .hero-meta-label {
@@ -204,9 +206,6 @@
       position: absolute;
       bottom: 48px;
       right: var(--gutter);
-      display: flex;
-      align-items: center;
-      gap: 14px;
       font-size: 10px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -219,6 +218,7 @@
       width: 40px;
       height: 1px;
       background: var(--muted);
+      display: inline-block;
     }
 
     /* ─── CONTENT WRAPPER ─────────────────── */
@@ -283,15 +283,10 @@
     .about-blur-driver    { height: 80vh; }
 
     .dark-section .section-title { color: var(--dark-text); }
-    .dark-section .section-num { color: rgba(248,248,244,0.3); }
+    .dark-section .section-num { color: var(--dark-text); }
     .dark-section .section-header { border-bottom-color: var(--border-dark); }
 
-    .about-grid {
-      display: grid;
-      grid-template-columns: 5fr 4fr;
-      gap: 80px;
-      align-items: start;
-    }
+    .about-grid { gap: 80px; }
 
     .about-intro {
       font-family: var(--font-display);
@@ -302,8 +297,6 @@
       color: var(--dark-text);
       margin-bottom: 40px;
     }
-
-    .about-tags { display: flex; flex-wrap: wrap; gap: 8px; }
 
     .tag {
       display: inline-block;
@@ -317,7 +310,7 @@
       border-radius: 100px;
     }
 
-    .about-body { font-size: 15px; line-height: 1.85; color: rgba(248,248,244,0.5); }
+    .about-body { font-size: 15px; line-height: 1.85; color: var(--dark-text); }
     .about-body p + p { margin-top: 20px; }
 
     /* ─── WORK ────────────────────────────── */
@@ -331,12 +324,11 @@
       background: #080808;
       opacity: 0;
       filter: blur(18px);
-      transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
-                  filter  1s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: opacity 3s cubic-bezier(0.16, 1, 0.3, 1),
+                  filter  3s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .work-sticky.work-visible { opacity: 1; filter: blur(0px); }
 
-    /* Blurred background layers */
     .work-bgs {
       position: absolute;
       inset: 0;
@@ -348,15 +340,21 @@
       inset: -12%;
       background-size: cover;
       background-position: center;
-      filter: blur(40px) brightness(0.55) saturate(1.3);
+      filter: blur(25px) brightness(0.55) saturate(1.3);
       opacity: 0;
-      transition: opacity 1s ease;
-      will-change: opacity;
+      transform: scale(1.08);
+      transition: opacity 1s ease,
+                  transform 2.2s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
     }
 
-    .work-bg.active { opacity: 1; }
+    .work-sticky:not(.work-visible) .work-bg.active {
+      transform: scale(1.08);
+    }
 
-    /* Dark overlay */
+    .work-bg.active { opacity: 1; transform: scale(1); }
+
+
     .work-overlay {
       position: absolute;
       inset: 0;
@@ -364,7 +362,6 @@
       background: linear-gradient(to right, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.25) 100%);
     }
 
-    /* Section header top */
     .work-section-header {
       position: absolute;
       top: 93px;
@@ -395,30 +392,20 @@
       color: var(--dark-text);
     }
 
-    /* Main grid */
+    /* Work grid — layout primitives via Tailwind, keep only non-utility rules here */
     .work-layout {
       position: absolute;
       inset: 0;
       z-index: 5;
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      align-items: stretch;
-      padding: 190px var(--gutter) 80px;
+      padding: 100px var(--gutter) 10px;
       gap: 60px;
-    }
-
-    /* Image column */
-    .work-image-col {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      height: 100%;
     }
 
     .work-images-stack {
       position: relative;
-      width: 100%;
-      height: 100%;
+      width: 95%;
+      aspect-ratio: 1;
+      height: auto;
     }
 
     .work-img-layer {
@@ -429,7 +416,6 @@
       will-change: opacity;
       border-radius: 3px;
       overflow: hidden;
-      box-shadow: 0 24px 80px rgba(0,0,0,0.7), 0 4px 20px rgba(0,0,0,0.5);
     }
 
     .work-img-layer.active { opacity: 1; }
@@ -440,12 +426,7 @@
       display: block;
     }
 
-    /* Text column */
-    .work-text-col {
-      display: flex;
-      align-items: center;
-      padding-left: 40px;
-    }
+    .work-text-col { padding-left: 40px; padding-top: 40px; }
 
     .work-texts-stack {
       position: relative;
@@ -456,16 +437,20 @@
     .work-text-layer {
       position: absolute;
       top: 0; left: 0; right: 0;
+      padding-top: 36px;
       opacity: 0;
-      transform: translateY(18px);
-      transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
-                  transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-      will-change: opacity, transform;
+      filter: blur(12px);
+      transform: scale(1.06) translateY(24px);
+      transition: opacity 1s ease,
+                  filter 1.2s ease,
+                  transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, filter, transform;
     }
 
     .work-text-layer.active {
       opacity: 1;
-      transform: translateY(0);
+      filter: blur(0);
+      transform: scale(1) translateY(0);
     }
 
     .work-proj-num {
@@ -473,7 +458,7 @@
       font-size: 11px;
       font-weight: 400;
       letter-spacing: 0.1em;
-      color: rgba(248,248,244,0.35);
+      color: var(--dark-text);
       margin-bottom: 20px;
     }
 
@@ -490,25 +475,20 @@
     .work-proj-desc {
       font-size: 15px;
       line-height: 1.8;
-      color: rgba(248,248,244,0.45);
+      color: var(--dark-text);
       max-width: 420px;
     }
 
-    /* Progress indicator */
     .work-progress {
       position: absolute;
-      bottom: 44px;
-      right: var(--gutter);
+      top: 0; left: 0;
       z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 16px;
     }
 
     .work-progress-label {
       font-size: 11px;
       letter-spacing: 0.08em;
-      color: rgba(248,248,244,0.3);
+      color: var(--dark-text);
     }
 
     .work-progress-bar {
@@ -527,7 +507,6 @@
       transition: width 0.3s ease;
     }
 
-    /* Scroll driver */
     .work-scroll-space { height: 400vh; }
 
     /* ─── CONTACT ─────────────────────────── */
@@ -538,7 +517,7 @@
     }
 
     .contact .section-header { border-bottom-color: var(--border-dark); }
-    .contact .section-num { color: rgba(248,248,244,0.28); }
+    .contact .section-num { color: var(--dark-text); }
     .contact .section-title { color: var(--dark-text); }
 
     .contact-cta {
@@ -552,19 +531,7 @@
     }
 
     .contact-links-row {
-      display: flex;
-      gap: 56px;
-      flex-wrap: wrap;
-      margin-top: 72px;
-      padding-top: 40px;
       border-top: 1px solid var(--border-dark);
-    }
-
-    .contact-link-item {
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-      text-decoration: none;
     }
 
     .contact-link-label {
@@ -572,7 +539,7 @@
       font-weight: 400;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: rgba(248,248,244,0.35);
+      color: var(--dark-text);
     }
 
     .contact-link-value {
@@ -599,14 +566,11 @@
       background: var(--dark-bg);
       border-top: 1px solid rgba(248,248,244,0.07);
       padding: 28px var(--gutter);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
     }
 
     .footer-copy {
       font-size: 11px;
-      color: rgba(248,248,244,0.25);
+      color: var(--dark-text);
       letter-spacing: 0.04em;
     }
 
@@ -623,36 +587,65 @@
     /* ─── RESPONSIVE ──────────────────────── */
     @media (max-width: 1100px) {
       :root { --gutter: 48px; }
-      .about-grid { grid-template-columns: 1fr 1fr; gap: 56px; }
-      .project-row { grid-template-columns: 44px 1fr 140px; }
-      .proj-visual { width: 140px; height: 88px; }
     }
 
     @media (max-width: 820px) {
       :root { --gutter: 28px; --section-py: 80px; }
-      .about-grid { grid-template-columns: 1fr; gap: 40px; }
-      .project-row { grid-template-columns: 36px 1fr; gap: 20px; }
-      .proj-visual { display: none; }
-      .proj-view { opacity: 1; transform: none; bottom: auto; top: 44px; }
+      .section-header { margin-bottom: 40px; }
+      .work-sticky { overflow: hidden; }
+      #about { overflow-y: auto; }
+      .work-bg { transform: none !important; transition: opacity 0.75s ease; }
       .hero-meta { flex-wrap: wrap; gap: 32px; }
-      .contact-links-row { gap: 36px; }
       .nav-links { gap: 24px; }
 
-      /* Work section: stack on mobile */
+      /* About: single column */
+      .about-grid {
+        grid-template-columns: 1fr !important;
+        gap: 40px;
+      }
+
+      /* Work: single column stack */
       .work-layout {
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr auto;
-        padding: 140px var(--gutter) 100px;
-        gap: 28px;
-        align-items: start;
+        grid-template-columns: 1fr !important;
+        grid-template-rows: auto auto;
+        align-content: start;
+        padding: 100px 0 60px;
+        gap: 20px;
+        align-items: start !important;
       }
       .work-image-col {
-        height: 52vw;
-        min-height: 240px;
+        padding: 0 var(--gutter);
+        box-sizing: border-box;
       }
-      .work-text-col { padding-left: 0; }
+      .work-images-stack {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        aspect-ratio: 1;
+        margin: 0;
+      }
+      .work-img-layer { border-radius: 0; }
+      .work-text-col {
+        padding-left: 0;
+        padding: var(--gutter) var(--gutter) calc(var(--gutter) + 30px);
+        margin-bottom: 0;
+      }
       .work-texts-stack { min-height: auto; }
       .work-proj-desc { max-width: 100%; }
+
+      .work-text-layer {
+        position: relative;
+        top: auto; left: auto; right: auto;
+        display: none;
+        opacity: 1;
+        filter: none;
+        transform: none;
+        transition: none;
+      }
+      .work-text-layer.active { display: block; }
+
+      /* Contact */
+      .contact-links-row { gap: 36px !important; }
     }
 
     @media (max-width: 520px) {
@@ -664,71 +657,67 @@
 <body>
 
   <!-- NAV -->
-  <nav id="mainNav">
+  <nav id="mainNav" class="flex items-center gap-10">
     <a href="#" class="nav-logo">
       <img src="images/logo.svg" alt="Mia Mo" class="nav-logo-img">
     </a>
-    <ul class="nav-links">
+    <ul class="nav-links flex gap-10 list-none">
       <li><a href="#about">01 About</a></li>
       <li><a href="#work">02 Work</a></li>
       <li><a href="#contact">03 Contact</a></li>
     </ul>
   </nav>
 
-  <!-- HERO: two curtain panels that split from center -->
+  <!-- HERO -->
   <section class="hero" id="hero">
-
-    <!-- Left panel — shows left half -->
-    <div class="hero-panel panel-l" id="panelL">
+    <div class="hero-panel panel-l flex flex-col justify-center" id="panelL">
       <p class="hero-eyebrow">Multidisciplinary Digital Designer</p>
       <h1 class="hero-headline">I'm Mia<br><span class="hero-sub">Digital designer. Code-aware creator. System thinker.</span></h1>
-      <div class="hero-meta">
-        <div class="hero-meta-item">
+      <div class="hero-meta flex gap-16 mt-[72px]">
+        <div class="hero-meta-item flex flex-col gap-[5px]">
           <span class="hero-meta-label">Discipline</span>
           <span class="hero-meta-value">Digital Design</span>
         </div>
-        <div class="hero-meta-item">
+        <div class="hero-meta-item flex flex-col gap-[5px]">
           <span class="hero-meta-label">Focus</span>
           <span class="hero-meta-value">Email Systems · UI · AI Tools</span>
         </div>
-        <div class="hero-meta-item">
+        <div class="hero-meta-item flex flex-col gap-[5px]">
           <span class="hero-meta-label">Based in</span>
           <span class="hero-meta-value">Available Worldwide</span>
         </div>
       </div>
-      <div class="hero-scroll-indicator">
+      <div class="hero-scroll-indicator flex items-center gap-[14px]">
         <span class="scroll-line"></span>
         Scroll
       </div>
     </div>
 
-    <!-- Right panel — shows right half -->
-    <div class="hero-panel panel-r" id="panelR">
+    <div class="hero-panel panel-r flex flex-col justify-center" id="panelR">
       <p class="hero-eyebrow">Multidisciplinary Digital Designer</p>
       <h1 class="hero-headline">I'm Mia<br><span class="hero-sub">Digital designer. Code-aware creator. System thinker.</span></h1>
-      <div class="hero-meta">
-        <div class="hero-meta-item">
+      <div class="hero-meta flex gap-16 mt-[72px]">
+        <div class="hero-meta-item flex flex-col gap-[5px]">
           <span class="hero-meta-label">Discipline</span>
           <span class="hero-meta-value">Digital Design</span>
         </div>
-        <div class="hero-meta-item">
+        <div class="hero-meta-item flex flex-col gap-[5px]">
           <span class="hero-meta-label">Focus</span>
           <span class="hero-meta-value">Email Systems · UI · AI Tools</span>
         </div>
-        <div class="hero-meta-item">
+        <div class="hero-meta-item flex flex-col gap-[5px]">
           <span class="hero-meta-label">Based in</span>
           <span class="hero-meta-value">Available Worldwide</span>
         </div>
       </div>
-      <div class="hero-scroll-indicator">
+      <div class="hero-scroll-indicator flex items-center gap-[14px]">
         <span class="scroll-line"></span>
         Scroll
       </div>
     </div>
-
   </section>
 
-  <!-- CONTENT scrolls behind the opening curtain -->
+  <!-- CONTENT -->
   <div class="content-wrapper">
 
     <!-- 01 ABOUT -->
@@ -738,10 +727,10 @@
         <span class="section-num">01</span>
         <h2 class="section-title">About</h2>
       </div>
-      <div class="about-grid">
+      <div class="about-grid grid grid-cols-about items-start">
         <div class="reveal" style="transition-delay:0.08s">
           <p class="about-intro">A designer whose path evolved from fine art and spatial design into digital systems, email design, front-end thinking, and AI-assisted workflow tools.</p>
-          <div class="about-tags">
+          <div class="about-tags flex flex-wrap gap-2">
             <span class="tag">Digital Design</span>
             <span class="tag">Web Design</span>
             <span class="tag">Email Design</span>
@@ -765,29 +754,26 @@
     <section id="work" class="work-section">
       <div class="work-sticky">
 
-        <!-- Section header -->
-
-        <!-- Blurred background layers (one per project) -->
         <div class="work-bgs" aria-hidden="true">
           <div class="work-bg active" style="background-image:url('images/jinjia.svg')"></div>
-          <div class="work-bg" style="background-image:url('https://placehold.co/800x800/1e2a2a/444?text=.')"></div>
+          <div class="work-bg" style="background-image:url('images/wmpo.svg')"></div>
           <div class="work-bg" style="background-image:url('https://placehold.co/800x800/1a1a2a/444?text=.')"></div>
           <div class="work-bg" style="background-image:url('https://placehold.co/800x800/2a1a1a/444?text=.')"></div>
           <div class="work-bg" style="background-image:url('images/jinjia.svg')"></div>
         </div>
         <div class="work-overlay"></div>
 
-        <!-- Main layout -->
-        <div class="work-layout">
+        <!-- Main layout: grid with Tailwind, complex positioning via CSS -->
+        <div class="work-layout grid grid-cols-work items-start">
 
-          <!-- Left: square images (stacked) -->
-          <div class="work-image-col">
+          <!-- Left: images -->
+          <div class="work-image-col flex flex-col justify-start items-start">
             <div class="work-images-stack">
               <div class="work-img-layer active">
-                <img src="images/jinjia.svg" alt="Email Design System" style="object-fit:contain; background:#111;">
+                <img src="images/jinjia.svg" alt="Email Design System">
               </div>
               <div class="work-img-layer">
-                <img src="https://placehold.co/640x640/1e2a2a/666?text=Campaigns" alt="Corporate Email Campaigns">
+                <img src="images/wmpo.svg" alt="Corporate Email Campaigns">
               </div>
               <div class="work-img-layer">
                 <img src="https://placehold.co/640x640/1a1a2a/666?text=Internal+Tools" alt="Internal Email Tools">
@@ -796,60 +782,51 @@
                 <img src="https://placehold.co/640x640/2a1a1a/666?text=Email+Editor" alt="Code-Free Email Editor">
               </div>
               <div class="work-img-layer">
-                <img src="images/jinjia.svg" alt="JINJIA Restaurant Website" style="object-fit:contain; background:#111;">
+                <img src="images/jinjia.svg" alt="JINJIA Restaurant Website">
               </div>
             </div>
           </div>
 
-          <!-- Right: project text (stacked) -->
-          <div class="work-text-col">
+          <!-- Right: text -->
+          <div class="work-text-col flex flex-col items-start self-start">
             <div class="work-texts-stack">
+              <div class="work-progress flex items-center gap-4">
+                <span class="work-progress-label">01 / 05</span>
+                <div class="work-progress-bar">
+                  <div class="work-progress-fill"></div>
+                </div>
+              </div>
 
               <div class="work-text-layer active">
-                <span class="work-proj-num">[01]</span>
                 <h3 class="work-proj-title">Email Design System</h3>
                 <p class="work-proj-desc">A comprehensive token-based design system for email production — covering components, spacing, typography, and brand guidelines at scale.</p>
               </div>
 
               <div class="work-text-layer">
-                <span class="work-proj-num">[02]</span>
                 <h3 class="work-proj-title">Corporate Email Campaigns</h3>
                 <p class="work-proj-desc">End-to-end design and production of high-volume corporate email campaigns — balancing brand consistency with measurable performance.</p>
               </div>
 
               <div class="work-text-layer">
-                <span class="work-proj-num">[03]</span>
                 <h3 class="work-proj-title">Internal Email Tools</h3>
                 <p class="work-proj-desc">Internal tooling to streamline email production workflows — reducing build time and enforcing brand consistency across teams.</p>
               </div>
 
               <div class="work-text-layer">
-                <span class="work-proj-num">[04]</span>
                 <h3 class="work-proj-title">Code-Free Email Editor</h3>
                 <p class="work-proj-desc">A visual email builder enabling non-technical teams to produce on-brand emails without writing a single line of code.</p>
               </div>
 
               <div class="work-text-layer">
-                <span class="work-proj-num">[05]</span>
                 <h3 class="work-proj-title">JINJIA Restaurant Website</h3>
                 <p class="work-proj-desc">Brand identity and website for a modern restaurant — editorial typography, atmospheric imagery, and seamless UX.</p>
               </div>
-
             </div>
           </div>
 
         </div>
 
-        <!-- Progress indicator -->
-        <div class="work-progress">
-          <span class="work-progress-label">01 / 05</span>
-          <div class="work-progress-bar">
-            <div class="work-progress-fill"></div>
-          </div>
-        </div>
-
       </div>
-      <!-- Scroll driver: 5 projects × 80vh each -->
       <div class="work-scroll-space"></div>
     </section>
 
@@ -860,23 +837,23 @@
         <h2 class="section-title">Contact</h2>
       </div>
       <p class="contact-cta reveal" style="transition-delay:0.10s">Let's build something clear, useful, and beautifully consistent.</p>
-      <div class="contact-links-row reveal" style="transition-delay:0.20s">
-        <a href="mailto:aiexpressphoto@gmail.com" class="contact-link-item">
+      <div class="contact-links-row flex flex-wrap gap-14 mt-[72px] pt-10 reveal" style="transition-delay:0.20s">
+        <a href="mailto:aiexpressphoto@gmail.com" class="contact-link-item flex flex-col gap-[7px] no-underline">
           <span class="contact-link-label">Email</span>
           <span class="contact-link-value">aiexpressphoto@gmail.com</span>
         </a>
-        <a href="https://linkedin.com" target="_blank" rel="noopener" class="contact-link-item">
+        <a href="https://linkedin.com" target="_blank" rel="noopener" class="contact-link-item flex flex-col gap-[7px] no-underline">
           <span class="contact-link-label">LinkedIn</span>
           <span class="contact-link-value">linkedin.com/in/mia</span>
         </a>
-        <a href="#" class="contact-link-item">
+        <a href="#" class="contact-link-item flex flex-col gap-[7px] no-underline">
           <span class="contact-link-label">Resume</span>
           <span class="contact-link-value">Download PDF →</span>
         </a>
       </div>
     </section>
 
-    <footer>
+    <footer class="flex justify-between items-center">
       <span class="footer-copy">© 2025 Mia Mo. All rights reserved.</span>
       <span class="footer-copy">Multidisciplinary Digital Designer</span>
     </footer>
@@ -893,17 +870,14 @@
 
     function update() {
       const progress = Math.min(scrollY / (innerHeight * 0.85), 1);
-      // Ease out cubic — fast start, smooth finish
       const eased = 1 - Math.pow(1 - progress, 3);
-      const offset = eased * 50; // each panel travels 50% of its width
+      const offset = eased * 50;
 
       panelL.style.transform = `translateX(-${offset}%)`;
       panelR.style.transform = `translateX(${offset}%)`;
 
-      // Disable clicks on hero once fully open
       hero.style.pointerEvents = progress >= 1 ? 'none' : 'auto';
 
-      // Nav: hide while curtain is opening, reappear dark when fully open
       nav.classList.toggle('nav-hidden', progress > 0.03 && progress < 1);
       nav.classList.toggle('nav-dark', progress >= 1);
       nav.classList.toggle('scrolled', progress >= 1);
@@ -914,6 +888,17 @@
       rafId = requestAnimationFrame(() => { update(); updateWork(); updateAbout(); });
     }, { passive: true });
 
+    // Nav smooth scroll
+    document.querySelectorAll('.nav-links a[href^="#"]').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const id = link.getAttribute('href').slice(1);
+        if (id !== 'about') aboutContentRead = true;
+        const target = document.getElementById(id === 'about' ? 'aboutScene' : id);
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
     // Work section: scroll-driven project transitions
     const workSection  = document.getElementById('work');
     const workBgs      = workSection.querySelectorAll('.work-bg');
@@ -923,53 +908,73 @@
     const workLabel    = workSection.querySelector('.work-progress-label');
     let activeProject  = 0;
 
+    function switchToProject(idx) {
+      workBgs[activeProject].classList.remove('active');
+      workImgLayers[activeProject].classList.remove('active');
+      workTxtLayers[activeProject].classList.remove('active');
+      workBgs[idx].classList.add('active');
+      workImgLayers[idx].classList.add('active');
+      workTxtLayers[idx].classList.add('active');
+      activeProject = idx;
+      if (workLabel) workLabel.textContent = `0${idx + 1} / 05`;
+    }
+
     function updateWork() {
       const rect = workSection.getBoundingClientRect();
       const scrolled = -rect.top;
       const scrollable = workSection.offsetHeight - innerHeight;
+      const isInWork = scrolled >= 0 && scrolled <= scrollable;
+      nav.classList.toggle('nav-work', isInWork);
       if (scrolled < 0 || scrolled > scrollable) return;
 
-      const progress = scrolled / scrollable;           // 0 → 1
-      const rawIdx   = progress * 5;                    // 0 → 5
-      const idx      = Math.min(Math.floor(rawIdx), 4); // 0 → 4
+      const progress = scrolled / scrollable;
+      const idx      = Math.min(Math.floor(progress * 5), 4);
 
-      if (idx !== activeProject) {
-        workBgs[activeProject].classList.remove('active');
-        workImgLayers[activeProject].classList.remove('active');
-        workTxtLayers[activeProject].classList.remove('active');
-
-        workBgs[idx].classList.add('active');
-        workImgLayers[idx].classList.add('active');
-        workTxtLayers[idx].classList.add('active');
-
-        activeProject = idx;
-        if (workLabel) workLabel.textContent = `0${idx + 1} / 05`;
-      }
-
+      if (idx !== activeProject) switchToProject(idx);
       if (workFill) workFill.style.width = `${progress * 100}%`;
     }
 
-    // About section: blur-out driven by scroll driver inside #aboutScene
+    // About section blur-out
     const aboutScene   = document.getElementById('aboutScene');
     const aboutSection = document.getElementById('about');
     const workStickyEl = workSection.querySelector('.work-sticky');
     let aboutExitProgress = 0;
+    const isMobile = () => window.innerWidth <= 820;
+    let aboutContentRead = !isMobile();
+
+    aboutSection.addEventListener('scroll', () => {
+      if (!aboutContentRead) {
+        const atBottom = aboutSection.scrollTop + aboutSection.clientHeight >= aboutSection.scrollHeight - 5;
+        if (atBottom) aboutContentRead = true;
+      }
+    }, { passive: true });
 
     function updateAbout() {
       const sceneRect     = aboutScene.getBoundingClientRect();
       const sceneScrolled = -sceneRect.top;
 
       if (sceneScrolled <= 0) {
-        aboutSection.style.filter    = '';
-        aboutSection.style.opacity   = '';
-        aboutSection.style.transform = '';
+        aboutSection.style.filter       = '';
+        aboutSection.style.opacity      = '';
+        aboutSection.style.transform    = '';
+        aboutSection.style.pointerEvents = '';
         aboutExitProgress = 0;
         workStickyEl.classList.remove('work-visible');
+        if (isMobile()) aboutContentRead = false;
         return;
       }
 
-      const readingPhase = innerHeight * 0.8; // 80vh — user reads About before blur starts
-      const blurPhase    = innerHeight * 0.8; // 80vh — blur completes over this distance
+      if (isMobile() && !aboutContentRead) {
+        aboutSection.style.filter       = '';
+        aboutSection.style.opacity      = '';
+        aboutSection.style.transform    = '';
+        aboutSection.style.pointerEvents = '';
+        aboutExitProgress = 0;
+        return;
+      }
+
+      const readingPhase = isMobile() ? 0 : innerHeight * 0.8;
+      const blurPhase    = innerHeight * 0.8;
       const blurScrolled = Math.max(0, sceneScrolled - readingPhase);
       aboutExitProgress  = Math.max(0, Math.min(1, blurScrolled / blurPhase));
 
@@ -983,12 +988,13 @@
         aboutSection.style.transform = `scale(${1 - aboutExitProgress * 0.03})`;
       }
 
-      // Reveal work only when blur is done AND work is already locked at top (no sliding up)
       const workRect = workSection.getBoundingClientRect();
-      workStickyEl.classList.toggle('work-visible', aboutExitProgress >= 0.98 && workRect.top <= 5);
+      const shouldRevealWork = aboutExitProgress >= 0.98 && workRect.top <= 5;
+      workStickyEl.classList.toggle('work-visible', shouldRevealWork);
+      aboutSection.style.pointerEvents = shouldRevealWork ? 'none' : '';
     }
 
-    // Scroll reveal for sections
+    // Scroll reveal
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
