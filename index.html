@@ -403,9 +403,11 @@
 
     .work-images-stack {
       position: relative;
-      width: 95%;
+      width: 85.5%;
+      margin-left: 4.75%;
       aspect-ratio: 1;
       height: auto;
+      overflow: hidden;
     }
 
     .work-img-layer {
@@ -419,6 +421,56 @@
     }
 
     .work-img-layer.active { opacity: 1; }
+
+    /* Clip wrapper: moves with scroll, overflow:hidden gives a hard edge */
+    .work-bg-clip {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    .work-bg-clip.scroll-driven {
+      transform: translateY(200vh);
+      transition: none;
+      will-change: transform;
+    }
+    /* Inner bg inside clip: always visible (clip controls reveal) */
+    .work-bg-clip .work-bg {
+      opacity: 1;
+      transform: scale(1);
+      transition: none;
+    }
+
+    /* Scroll-driven layers (projects 2–5): JS controls transform on clip wrapper */
+    .work-bg.scroll-driven {
+      opacity: 1;
+      transition: none;
+    }
+    .work-img-layer.scroll-driven {
+      opacity: 1;
+      transition: none;
+    }
+    /* Scroll-driven imgs: hidden until JS reveals them; rise from bottom via top property */
+    .work-img-layer.scroll-driven img {
+      position: absolute;
+      top: 100%;
+      left: 0; right: 0;
+      height: 100%;
+      object-fit: cover;
+      display: none; /* JS sets display:block and animates top when transition starts */
+      transition: none;
+    }
+
+    /* z-index: later projects stack above earlier ones */
+    .work-bgs > *:nth-child(1) { z-index: 1; }
+    .work-bgs > *:nth-child(2) { z-index: 2; }
+    .work-bgs > *:nth-child(3) { z-index: 3; }
+    .work-bgs > *:nth-child(4) { z-index: 4; }
+    .work-bgs > *:nth-child(5) { z-index: 5; }
+    .work-images-stack .work-img-layer:nth-child(1) { z-index: 1; }
+    .work-images-stack .work-img-layer:nth-child(2) { z-index: 2; }
+    .work-images-stack .work-img-layer:nth-child(3) { z-index: 3; }
+    .work-images-stack .work-img-layer:nth-child(4) { z-index: 4; }
+    .work-images-stack .work-img-layer:nth-child(5) { z-index: 5; }
 
     .work-img-layer img {
       width: 100%; height: 100%;
@@ -439,18 +491,12 @@
       top: 0; left: 0; right: 0;
       padding-top: 36px;
       opacity: 0;
-      filter: blur(12px);
-      transform: scale(1.06) translateY(24px);
-      transition: opacity 1s ease,
-                  filter 1.2s ease,
-                  transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: opacity, filter, transform;
+      transition: opacity 0.55s ease;
+      will-change: opacity;
     }
 
     .work-text-layer.active {
       opacity: 1;
-      filter: blur(0);
-      transform: scale(1) translateY(0);
     }
 
     .work-proj-num {
@@ -507,7 +553,7 @@
       transition: width 0.3s ease;
     }
 
-    .work-scroll-space { height: 400vh; }
+    .work-scroll-space { height: 500vh; }
 
     /* ─── CONTACT ─────────────────────────── */
     .contact {
@@ -756,10 +802,18 @@
 
         <div class="work-bgs" aria-hidden="true">
           <div class="work-bg active" style="background-image:url('images/jinjia.svg')"></div>
-          <div class="work-bg" style="background-image:url('images/wmpo.svg')"></div>
-          <div class="work-bg" style="background-image:url('https://placehold.co/800x800/1a1a2a/444?text=.')"></div>
-          <div class="work-bg" style="background-image:url('https://placehold.co/800x800/2a1a1a/444?text=.')"></div>
-          <div class="work-bg" style="background-image:url('images/jinjia.svg')"></div>
+          <div class="work-bg-clip scroll-driven">
+            <div class="work-bg" style="background-image:url('images/wmpo.svg')"></div>
+          </div>
+          <div class="work-bg-clip scroll-driven">
+            <div class="work-bg" style="background-image:url('https://placehold.co/800x800/1a1a2a/444?text=.')"></div>
+          </div>
+          <div class="work-bg-clip scroll-driven">
+            <div class="work-bg" style="background-image:url('https://placehold.co/800x800/2a1a1a/444?text=.')"></div>
+          </div>
+          <div class="work-bg-clip scroll-driven">
+            <div class="work-bg" style="background-image:url('images/jinjia.svg')"></div>
+          </div>
         </div>
         <div class="work-overlay"></div>
 
@@ -772,16 +826,16 @@
               <div class="work-img-layer active">
                 <img src="images/jinjia.svg" alt="Email Design System">
               </div>
-              <div class="work-img-layer">
+              <div class="work-img-layer scroll-driven">
                 <img src="images/wmpo.svg" alt="Corporate Email Campaigns">
               </div>
-              <div class="work-img-layer">
+              <div class="work-img-layer scroll-driven">
                 <img src="https://placehold.co/640x640/1a1a2a/666?text=Internal+Tools" alt="Internal Email Tools">
               </div>
-              <div class="work-img-layer">
+              <div class="work-img-layer scroll-driven">
                 <img src="https://placehold.co/640x640/2a1a1a/666?text=Email+Editor" alt="Code-Free Email Editor">
               </div>
-              <div class="work-img-layer">
+              <div class="work-img-layer scroll-driven">
                 <img src="images/jinjia.svg" alt="JINJIA Restaurant Website">
               </div>
             </div>
@@ -902,18 +956,17 @@
     // Work section: scroll-driven project transitions
     const workSection  = document.getElementById('work');
     const workBgs      = workSection.querySelectorAll('.work-bg');
+    const workBgClips  = workSection.querySelectorAll('.work-bg-clip.scroll-driven');
     const workImgLayers= workSection.querySelectorAll('.work-img-layer');
     const workTxtLayers= workSection.querySelectorAll('.work-text-layer');
     const workFill     = workSection.querySelector('.work-progress-fill');
     const workLabel    = workSection.querySelector('.work-progress-label');
     let activeProject  = 0;
+    let stackTop = null, stackHeight = null;
 
     function switchToProject(idx) {
-      workBgs[activeProject].classList.remove('active');
-      workImgLayers[activeProject].classList.remove('active');
+      // Only manage text layers; bg and img are scroll-driven
       workTxtLayers[activeProject].classList.remove('active');
-      workBgs[idx].classList.add('active');
-      workImgLayers[idx].classList.add('active');
       workTxtLayers[idx].classList.add('active');
       activeProject = idx;
       if (workLabel) workLabel.textContent = `0${idx + 1} / 05`;
@@ -928,9 +981,42 @@
       if (scrolled < 0 || scrolled > scrollable) return;
 
       const progress = scrolled / scrollable;
-      const idx      = Math.min(Math.floor(progress * 5), 4);
 
-      if (idx !== activeProject) switchToProject(idx);
+      // Cache image box position relative to viewport (sticky is at top:0 when active)
+      if (stackTop === null) {
+        const r = workSection.querySelector('.work-images-stack').getBoundingClientRect();
+        stackTop    = r.top;
+        stackHeight = r.height;
+      }
+
+      // Scroll-driven: bg slides from bottom; img top edge aligns with bg top edge at all times
+      for (let i = 1; i <= 4; i++) {
+        const bgTp   = Math.max(0, Math.min(1, (scrolled - i * innerHeight) / innerHeight));
+        const bgTopY = (1 - bgTp) * innerHeight;   // bg top edge y in viewport
+
+        workBgClips[i - 1].style.transform = `translateY(${bgTopY}px)`;
+
+        // imgTp derived from bgTopY so visible img top == bgTopY:
+        // stackTop + (1 - imgTp) * stackHeight = bgTopY  →  imgTp = 1 - (bgTopY - stackTop) / stackHeight
+        const imgTp = Math.max(0, Math.min(1, 1 - (bgTopY - stackTop) / stackHeight));
+        const img = workImgLayers[i].querySelector('img');
+        if (img) {
+          if (imgTp <= 0) {
+            img.style.display = 'none';
+          } else {
+            img.style.display = 'block';
+            img.style.top = `${(1 - imgTp) * 100}%`;
+          }
+        }
+      }
+
+      // Text switches at 50% of each project's transition (simple fade)
+      let currentTextProject = 0;
+      for (let i = 1; i <= 4; i++) {
+        if ((scrolled - i * innerHeight) / innerHeight >= 0.5) currentTextProject = i;
+      }
+      if (currentTextProject !== activeProject) switchToProject(currentTextProject);
+
       if (workFill) workFill.style.width = `${progress * 100}%`;
     }
 
