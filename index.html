@@ -131,9 +131,37 @@
       text-decoration: none;
       color: var(--text);
       opacity: 0.5;
+      position: relative;
       transition: opacity 0.2s ease, color 0.35s ease;
     }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: currentColor;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
     .nav-links a:hover { opacity: 1; }
+    .nav-links a.nav-active { opacity: 1; }
+    .nav-links a.nav-active::after { transform: scaleX(1); }
+
+    .nav-links a .char {
+      display: inline-block;
+    }
+    .nav-links a:hover .char {
+      animation: char-jump 0.4s ease forwards;
+    }
+    @keyframes char-jump {
+      0%   { transform: translateY(0); }
+      35%  { transform: translateY(-5px); }
+      65%  { transform: translateY(1px); }
+      100% { transform: translateY(0); }
+    }
 
     /* ─── HERO ─────────────────────────────── */
     .hero {
@@ -478,6 +506,52 @@
       display: block;
     }
 
+    .proj-carousel {
+      position: absolute;
+      inset: 0;
+    }
+    .proj-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.9s ease;
+    }
+    .proj-slide.active { opacity: 1; }
+
+    .proj-carousel-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      cursor: none;
+    }
+
+    .arrow-div {
+      background-color: #000;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      color: #fff;
+    }
+    .arrow-div svg {
+      width: 28px;
+      height: 28px;
+      stroke: #fff;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
     .work-text-col { padding-left: 40px; padding-top: 40px; }
 
     .work-texts-stack {
@@ -510,10 +584,10 @@
 
     .work-proj-title {
       font-family: var(--font-display);
-      font-size: clamp(27px, 2.7vw, 43px);
+      font-size: clamp(22px, 2.16vw, 34px);
       font-weight: 400;
       letter-spacing: -0.03em;
-      line-height: 1.05;
+      line-height: 1.15;
       color: var(--dark-text);
       margin-bottom: 24px;
     }
@@ -523,6 +597,36 @@
       line-height: 1.8;
       color: var(--dark-text);
       max-width: 420px;
+    }
+
+    .work-proj-link {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 5px 14px;
+      border: 1px solid rgba(248,248,244,0.35);
+      border-radius: 100px;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--dark-text);
+      text-decoration: none;
+      transition: border-color 0.2s ease, opacity 0.2s ease;
+      opacity: 0.7;
+    }
+    .work-proj-link:hover { border-color: rgba(248,248,244,0.8); opacity: 1; }
+
+    .work-proj-body {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--dark-text);
+      opacity: 0.65;
+      margin-top: 20px;
+      max-width: 420px;
+    }
+
+    @media (max-width: 820px) {
+      .work-proj-body { display: none; }
+      .arrow-div { width: 48px; height: 48px; }
+      .arrow-div svg { width: 22px; height: 22px; }
     }
 
     .work-progress {
@@ -803,7 +907,7 @@
         <div class="work-bgs" aria-hidden="true">
           <div class="work-bg active" style="background-image:url('images/Shinbay.jpg')"></div>
           <div class="work-bg-clip scroll-driven">
-            <div class="work-bg" style="background-image:url('images/wmpo.svg')"></div>
+            <div class="work-bg" style="background-image:url('images/TM-Email.png')"></div>
           </div>
           <div class="work-bg-clip scroll-driven">
             <div class="work-bg" style="background-image:url('https://placehold.co/800x800/1a1a2a/444?text=.')"></div>
@@ -824,10 +928,14 @@
           <div class="work-image-col flex flex-col justify-start items-start">
             <div class="work-images-stack">
               <div class="work-img-layer active">
-                <img src="images/Shinbay.jpg" alt="Email Design System">
+                <div class="proj-carousel">
+                  <img src="images/Shinbay.jpg"          class="proj-slide active" alt="Shinbay">
+                  <img src="images/shinbayapp.png"       class="proj-slide"        alt="Shinbay App">
+                  <img src="images/shinbay-interior.jpg" class="proj-slide"        alt="Shinbay Interior">
+                </div>
               </div>
               <div class="work-img-layer scroll-driven">
-                <img src="images/wmpo.svg" alt="Corporate Email Campaigns">
+                <img src="images/TM-Email.png" alt="Corporate Email Campaigns">
               </div>
               <div class="work-img-layer scroll-driven">
                 <img src="https://placehold.co/640x640/1a1a2a/666?text=Internal+Tools" alt="Internal Email Tools">
@@ -852,13 +960,17 @@
               </div>
 
               <div class="work-text-layer active">
-                <h3 class="work-proj-title">Email Design System</h3>
-                <p class="work-proj-desc">A comprehensive token-based design system for email production — covering components, spacing, typography, and brand guidelines at scale.</p>
+                <img src="images/shinbay-logo.svg" alt="Shinbay" style="width:115px; display:block; margin-bottom:24px; opacity:0.9;">
+                <h3 class="work-proj-title">From Identity to Experience</h3>
+                <p class="work-proj-desc">Logo, print branding, website, and a custom React menu app for Shinbay Omakase Room.</p>
+                <a href="https://www.shin-bay.com/" target="_blank" rel="noopener" class="work-proj-link">↗ shin-bay.com</a>
+                <p class="work-proj-body">Designed a complete brand and digital experience for Shinbay Omakase Room, spanning logo design, print collateral, website, and a custom React-based menu management app. The app allows the restaurant team to easily update menu items, categories, descriptions, pricing, and images without touching code—helping maintain a polished guest-facing menu while making daily operations faster and more flexible.</p>
               </div>
 
               <div class="work-text-layer">
-                <h3 class="work-proj-title">Corporate Email Campaigns</h3>
-                <p class="work-proj-desc">End-to-end design and production of high-volume corporate email campaigns — balancing brand consistency with measurable performance.</p>
+                <h3 class="work-proj-title">Email Design System & Render-Safe Code Framework</h3>
+                <p class="work-proj-desc">I am a Senior Digital Designer at Taylor Morrison, where I focus on building scalable design systems for high-volume email marketing.</p>
+                <p class="work-proj-body">I developed a branded email design system featuring 51 topic-based templates, 65 reusable HTML/CSS modules, and 30+ hero animation variations. Built to support large-scale campaign production, the system streamlines workflows, strengthens brand consistency, and reduces repetitive manual work across teams.</p>
               </div>
 
               <div class="work-text-layer">
@@ -937,10 +1049,90 @@
       nav.classList.toggle('scrolled', progress >= 1);
     }
 
+    // Nav active underline
+    const navLinkAbout   = document.querySelector('.nav-links a[href="#about"]');
+    const navLinkWork    = document.querySelector('.nav-links a[href="#work"]');
+    const navLinkContact = document.querySelector('.nav-links a[href="#contact"]');
+
+    function setActiveNav(id) {
+      [navLinkAbout, navLinkWork, navLinkContact].forEach(l => l && l.classList.remove('nav-active'));
+      if (id === 'about')   navLinkAbout   && navLinkAbout.classList.add('nav-active');
+      if (id === 'work')    navLinkWork    && navLinkWork.classList.add('nav-active');
+      if (id === 'contact') navLinkContact && navLinkContact.classList.add('nav-active');
+    }
+
+    function updateActiveNav() {
+      const contactRect = document.getElementById('contact').getBoundingClientRect();
+      const workRect    = document.getElementById('work').getBoundingClientRect();
+      const aboutRect   = document.getElementById('aboutScene').getBoundingClientRect();
+
+      if (contactRect.top < window.innerHeight * 0.5) {
+        setActiveNav('contact');
+      } else if (workRect.top < window.innerHeight * 0.5 && workRect.bottom > 0) {
+        setActiveNav('work');
+      } else if (aboutRect.top < window.innerHeight * 0.5 && aboutRect.bottom > 0) {
+        setActiveNav('about');
+      } else {
+        setActiveNav(null);
+      }
+    }
+
     addEventListener('scroll', () => {
       if (rafId) cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(() => { update(); updateWork(); updateAbout(); });
+      rafId = requestAnimationFrame(() => { update(); updateWork(); updateAbout(); updateActiveNav(); });
     }, { passive: true });
+
+    // Project image carousel — auto-advance + cursor arrow nav
+    const carouselSlides = document.querySelectorAll('.proj-carousel .proj-slide');
+    let carouselIdx = 0;
+    let carouselTimer;
+
+    function carouselGo(dir) {
+      carouselSlides[carouselIdx].classList.remove('active');
+      carouselIdx = (carouselIdx + dir + carouselSlides.length) % carouselSlides.length;
+      carouselSlides[carouselIdx].classList.add('active');
+    }
+
+    function resetCarouselTimer() {
+      clearInterval(carouselTimer);
+      carouselTimer = setInterval(() => carouselGo(1), 3500);
+    }
+    resetCarouselTimer();
+
+    // Cursor-following arrow overlay — sits above all img layers
+    const workImagesStackEl = document.querySelector('#work .work-images-stack');
+    const overlay  = document.createElement('div');
+    overlay.className = 'proj-carousel-overlay';
+    const arrowDiv = document.createElement('div');
+    arrowDiv.className = 'arrow-div';
+    overlay.appendChild(arrowDiv);
+    workImagesStackEl.appendChild(overlay);
+
+    const svgRight = `<svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>`;
+    const svgLeft  = `<svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>`;
+
+    overlay.addEventListener('mousemove', e => {
+      const r = overlay.getBoundingClientRect();
+      arrowDiv.style.left = (e.clientX - r.left) + 'px';
+      arrowDiv.style.top  = (e.clientY - r.top)  + 'px';
+      arrowDiv.style.opacity = '1';
+      arrowDiv.innerHTML = (e.clientX - r.left) > r.width / 2 ? svgRight : svgLeft;
+    });
+    overlay.addEventListener('mouseleave', () => { arrowDiv.style.opacity = '0'; });
+    overlay.addEventListener('click', e => {
+      const r = overlay.getBoundingClientRect();
+      carouselGo((e.clientX - r.left) > r.width / 2 ? 1 : -1);
+      resetCarouselTimer();
+    });
+
+    // Nav letter jump — wrap each char in a span with staggered delay
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.innerHTML = [...link.textContent].map((ch, i) =>
+        ch === ' '
+          ? ' '
+          : `<span class="char" style="animation-delay:${i * 40}ms">${ch}</span>`
+      ).join('');
+    });
 
     // Nav smooth scroll
     document.querySelectorAll('.nav-links a[href^="#"]').forEach(link => {
@@ -965,12 +1157,22 @@
     let stackTop = null, stackHeight = null;
 
     function switchToProject(idx) {
-      // Only manage text layers; bg and img are scroll-driven
       workTxtLayers[activeProject].classList.remove('active');
       workTxtLayers[idx].classList.add('active');
       activeProject = idx;
       if (workLabel) workLabel.textContent = `0${idx + 1} / 05`;
+      // Pause carousel when not on project 1, resume from first slide when back
+      if (idx === 0) {
+        carouselSlides[carouselIdx].classList.remove('active');
+        carouselIdx = 0;
+        carouselSlides[0].classList.add('active');
+        resetCarouselTimer();
+      } else {
+        clearInterval(carouselTimer);
+      }
     }
+
+    let wasInWork = false;
 
     function updateWork() {
       const rect = workSection.getBoundingClientRect();
@@ -978,7 +1180,19 @@
       const scrollable = workSection.offsetHeight - innerHeight;
       const isInWork = scrolled >= 0 && scrolled <= scrollable;
       nav.classList.toggle('nav-work', isInWork);
-      if (scrolled < 0 || scrolled > scrollable) return;
+      if (scrolled < 0 || scrolled > scrollable) {
+        wasInWork = false;
+        return;
+      }
+
+      // Reset carousel to first slide on every entry into work section
+      if (!wasInWork) {
+        wasInWork = true;
+        carouselSlides[carouselIdx].classList.remove('active');
+        carouselIdx = 0;
+        carouselSlides[0].classList.add('active');
+        resetCarouselTimer();
+      }
 
       const progress = scrolled / scrollable;
 
