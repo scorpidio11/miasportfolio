@@ -477,14 +477,23 @@
       opacity: 1;
       transition: none;
     }
-    /* Scroll-driven imgs: hidden until JS reveals them; rise from bottom via top property */
-    .work-img-layer.scroll-driven img {
+    /* Scroll-driven direct img/video (no carousel): hidden until JS reveals them */
+    .work-img-layer.scroll-driven > img,
+    .work-img-layer.scroll-driven > video {
       position: absolute;
       top: 100%;
       left: 0; right: 0;
       height: 100%;
       object-fit: cover;
-      display: none; /* JS sets display:block and animates top when transition starts */
+      display: none;
+      transition: none;
+    }
+    /* Scroll-driven carousel wrapper: same reveal behavior */
+    .work-img-layer.scroll-driven > .proj-carousel {
+      top: 100%;
+      left: 0; right: 0;
+      height: 100%;
+      display: none;
       transition: none;
     }
 
@@ -500,7 +509,8 @@
     .work-images-stack .work-img-layer:nth-child(4) { z-index: 4; }
     .work-images-stack .work-img-layer:nth-child(5) { z-index: 5; }
 
-    .work-img-layer img {
+    .work-img-layer img,
+    .work-img-layer video {
       width: 100%; height: 100%;
       object-fit: cover;
       display: block;
@@ -657,7 +667,7 @@
       transition: width 0.3s ease;
     }
 
-    .work-scroll-space { height: 500vh; }
+    .work-scroll-space { height: 600vh; }
 
     /* ─── CONTACT ─────────────────────────── */
     .contact {
@@ -672,10 +682,10 @@
 
     .contact-cta {
       font-family: var(--font-display);
-      font-size: clamp(38px, 4.8vw, 76px);
+      font-size: clamp(21px, 2.2vw, 30px);
       font-weight: 400;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
+      letter-spacing: -0.015em;
+      line-height: 1.45;
       color: var(--dark-text);
       max-width: 780px;
     }
@@ -907,6 +917,9 @@
         <div class="work-bgs" aria-hidden="true">
           <div class="work-bg active" style="background-image:url('images/Shinbay.jpg')"></div>
           <div class="work-bg-clip scroll-driven">
+            <div class="work-bg" style="background-image:url('images/jinjia-interior.jpg')"></div>
+          </div>
+          <div class="work-bg-clip scroll-driven">
             <div class="work-bg" style="background-image:url('images/TM-Email.png')"></div>
           </div>
           <div class="work-bg-clip scroll-driven">
@@ -914,9 +927,6 @@
           </div>
           <div class="work-bg-clip scroll-driven">
             <div class="work-bg" style="background-image:url('https://placehold.co/800x800/2a1a1a/444?text=.')"></div>
-          </div>
-          <div class="work-bg-clip scroll-driven">
-            <div class="work-bg" style="background-image:url('images/Shinbay.jpg')"></div>
           </div>
         </div>
         <div class="work-overlay"></div>
@@ -931,20 +941,30 @@
                 <div class="proj-carousel">
                   <img src="images/Shinbay.jpg"          class="proj-slide active" alt="Shinbay">
                   <img src="images/shinbayapp.png"       class="proj-slide"        alt="Shinbay App">
+                  <img src="images/shinbay-sign.png"     class="proj-slide"        alt="Shinbay Sign">
                   <img src="images/shinbay-interior.jpg" class="proj-slide"        alt="Shinbay Interior">
+                </div>
+              </div>
+              <div class="work-img-layer scroll-driven">
+                <div class="proj-carousel">
+                  <img src="images/jinjia.png"             class="proj-slide active" alt="JINJIA Restaurant Website">
+                  <img src="images/jinjia-mockup.jpg"      class="proj-slide"        alt="JINJIA Mockup">
+                  <img src="images/jinjia-drinkmenu.jpg"   class="proj-slide"        alt="JINJIA Drink Menu">
+                  <img src="images/jinjia-sign.png"        class="proj-slide"        alt="JINJIA Sign">
+                  <img src="images/jinjia-interior.jpg"    class="proj-slide"        alt="JINJIA Interior">
                 </div>
               </div>
               <div class="work-img-layer scroll-driven">
                 <img src="images/TM-Email.png" alt="Corporate Email Campaigns">
               </div>
               <div class="work-img-layer scroll-driven">
-                <img src="https://placehold.co/640x640/1a1a2a/666?text=Internal+Tools" alt="Internal Email Tools">
+                <div class="proj-carousel" data-no-auto>
+                  <video src="video/email.mp4"  class="proj-slide active" autoplay muted playsinline></video>
+                  <video src="video/email2.mp4" class="proj-slide"        autoplay muted playsinline data-rate="0.6"></video>
+                </div>
               </div>
               <div class="work-img-layer scroll-driven">
                 <img src="https://placehold.co/640x640/2a1a1a/666?text=Email+Editor" alt="Code-Free Email Editor">
-              </div>
-              <div class="work-img-layer scroll-driven">
-                <img src="images/Shinbay.jpg" alt="JINJIA Restaurant Website">
               </div>
             </div>
           </div>
@@ -968,24 +988,28 @@
               </div>
 
               <div class="work-text-layer">
+                <h3 class="work-proj-title">JINJIA Restaurant<br>Marketing Collateral & Web Design</h3>
+                <p class="work-proj-desc">Website, print menu design, and promotional materials</p>
+                <a href="https://jinjiausa.com/" target="_blank" rel="noopener" class="work-proj-link">↗ jinjiausa.com</a>
+                <p class="work-proj-body">This project focused on translating JINJIA's Korean-Chinese dining experience into a modern digital and print presence. I created a visual system that balances East Asian elegance with contemporary simplicity, using refined typography, rich imagery, and structured layouts to support both brand storytelling and usability.</p>
+              </div>
+
+              <div class="work-text-layer">
+                <img src="images/taylor-morrison.svg" alt="Taylor Morrison" style="width:115px; display:block; margin-bottom:24px; opacity:0.9;">
                 <h3 class="work-proj-title">Email Design System & Render-Safe Code Framework</h3>
                 <p class="work-proj-desc">I am a Senior Digital Designer at Taylor Morrison, where I focus on building scalable design systems for high-volume email marketing.</p>
                 <p class="work-proj-body">I developed a branded email design system featuring 51 topic-based templates, 65 reusable HTML/CSS modules, and 30+ hero animation variations. Built to support large-scale campaign production, the system streamlines workflows, strengthens brand consistency, and reduces repetitive manual work across teams.</p>
               </div>
 
               <div class="work-text-layer">
-                <h3 class="work-proj-title">Internal Email Tools</h3>
-                <p class="work-proj-desc">Internal tooling to streamline email production workflows — reducing build time and enforcing brand consistency across teams.</p>
+                <h3 class="work-proj-title">Email Design, Code & Motion</h3>
+                <p class="work-proj-desc">Designing and coding high-impact emails through visual storytelling, motion, and inbox-ready technical precision.</p>
+                <p class="work-proj-body">I design and build email experiences that blend strong visuals with reliable execution. From concept and layout to coding and animated hero sections, I create polished campaigns with a clear understanding of email-specific constraints, including responsiveness, image handling, client compatibility, and cross-platform rendering.</p>
               </div>
 
               <div class="work-text-layer">
                 <h3 class="work-proj-title">Code-Free Email Editor</h3>
                 <p class="work-proj-desc">A visual email builder enabling non-technical teams to produce on-brand emails without writing a single line of code.</p>
-              </div>
-
-              <div class="work-text-layer">
-                <h3 class="work-proj-title">JINJIA Restaurant Website</h3>
-                <p class="work-proj-desc">Brand identity and website for a modern restaurant — editorial typography, atmospheric imagery, and seamless UX.</p>
               </div>
             </div>
           </div>
@@ -1002,7 +1026,7 @@
         <span class="section-num">03</span>
         <h2 class="section-title">Contact</h2>
       </div>
-      <p class="contact-cta reveal" style="transition-delay:0.10s">Let's build something clear, useful, and beautifully consistent.</p>
+      <p class="contact-cta reveal" style="transition-delay:0.10s">Thoughtful design, system-driven execution, measurable value.</p>
       <div class="contact-links-row flex flex-wrap gap-14 mt-[72px] pt-10 reveal" style="transition-delay:0.20s">
         <a href="mailto:aiexpressphoto@gmail.com" class="contact-link-item flex flex-col gap-[7px] no-underline">
           <span class="contact-link-label">Email</span>
@@ -1082,22 +1106,62 @@
       rafId = requestAnimationFrame(() => { update(); updateWork(); updateAbout(); updateActiveNav(); });
     }, { passive: true });
 
-    // Project image carousel — auto-advance + cursor arrow nav
-    const carouselSlides = document.querySelectorAll('.proj-carousel .proj-slide');
-    let carouselIdx = 0;
-    let carouselTimer;
+    // Per-project carousel registry
+    const carousels = {};
+    document.querySelectorAll('.work-img-layer').forEach((layer, projIdx) => {
+      const carousel = layer.querySelector('.proj-carousel');
+      if (!carousel) return;
+      const slides = Array.from(carousel.querySelectorAll('.proj-slide'));
+      if (!slides.length) return;
+      carousels[projIdx] = { slides, idx: 0, timer: null, autoAdvance: !carousel.hasAttribute('data-no-auto') };
+    });
 
-    function carouselGo(dir) {
-      carouselSlides[carouselIdx].classList.remove('active');
-      carouselIdx = (carouselIdx + dir + carouselSlides.length) % carouselSlides.length;
-      carouselSlides[carouselIdx].classList.add('active');
+    function carouselGo(projIdx, dir) {
+      const c = carousels[projIdx];
+      if (!c) return;
+      const prev = c.slides[c.idx];
+      prev.classList.remove('active');
+      if (prev.tagName === 'VIDEO') { prev.pause(); prev.currentTime = 0; }
+      c.idx = (c.idx + dir + c.slides.length) % c.slides.length;
+      const next = c.slides[c.idx];
+      next.classList.add('active');
+      if (next.tagName === 'VIDEO') next.play();
     }
 
-    function resetCarouselTimer() {
-      clearInterval(carouselTimer);
-      carouselTimer = setInterval(() => carouselGo(1), 3500);
+    function resetCarouselTimer(projIdx) {
+      const c = carousels[projIdx];
+      if (!c || !c.autoAdvance) return;
+      clearInterval(c.timer);
+      c.timer = setInterval(() => carouselGo(projIdx, 1), 3500);
     }
-    resetCarouselTimer();
+
+    function stopCarousel(projIdx) {
+      const c = carousels[projIdx];
+      if (c) clearInterval(c.timer);
+    }
+
+    function resetCarouselToStart(projIdx) {
+      const c = carousels[projIdx];
+      if (!c) return;
+      c.slides[c.idx].classList.remove('active');
+      c.idx = 0;
+      c.slides[0].classList.add('active');
+      resetCarouselTimer(projIdx);
+    }
+
+    // For non-auto carousels: advance on video end
+    Object.entries(carousels).forEach(([projIdx, c]) => {
+      if (c.autoAdvance) return;
+      c.slides.forEach((slide, slideIdx) => {
+        if (slide.tagName === 'VIDEO') {
+          slide.addEventListener('ended', () => {
+            if (parseInt(projIdx) === activeProject) carouselGo(parseInt(projIdx), 1);
+          });
+        }
+      });
+    });
+
+    resetCarouselTimer(0);
 
     // Cursor-following arrow overlay — sits above all img layers
     const workImagesStackEl = document.querySelector('#work .work-images-stack');
@@ -1121,8 +1185,14 @@
     overlay.addEventListener('mouseleave', () => { arrowDiv.style.opacity = '0'; });
     overlay.addEventListener('click', e => {
       const r = overlay.getBoundingClientRect();
-      carouselGo((e.clientX - r.left) > r.width / 2 ? 1 : -1);
-      resetCarouselTimer();
+      carouselGo(activeProject, (e.clientX - r.left) > r.width / 2 ? 1 : -1);
+      resetCarouselTimer(activeProject);
+    });
+
+    // Custom video playback rates
+    document.querySelectorAll('video[data-rate]').forEach(v => {
+      v.playbackRate = parseFloat(v.dataset.rate);
+      v.addEventListener('loadedmetadata', () => { v.playbackRate = parseFloat(v.dataset.rate); });
     });
 
     // Nav letter jump — wrap each char in a span with staggered delay
@@ -1159,17 +1229,10 @@
     function switchToProject(idx) {
       workTxtLayers[activeProject].classList.remove('active');
       workTxtLayers[idx].classList.add('active');
+      stopCarousel(activeProject);
       activeProject = idx;
       if (workLabel) workLabel.textContent = `0${idx + 1} / 05`;
-      // Pause carousel when not on project 1, resume from first slide when back
-      if (idx === 0) {
-        carouselSlides[carouselIdx].classList.remove('active');
-        carouselIdx = 0;
-        carouselSlides[0].classList.add('active');
-        resetCarouselTimer();
-      } else {
-        clearInterval(carouselTimer);
-      }
+      if (carousels[idx]) resetCarouselTimer(idx);
     }
 
     let wasInWork = false;
@@ -1188,10 +1251,7 @@
       // Reset carousel to first slide on every entry into work section
       if (!wasInWork) {
         wasInWork = true;
-        carouselSlides[carouselIdx].classList.remove('active');
-        carouselIdx = 0;
-        carouselSlides[0].classList.add('active');
-        resetCarouselTimer();
+        resetCarouselToStart(0);
       }
 
       const progress = scrolled / scrollable;
@@ -1213,13 +1273,13 @@
         // imgTp derived from bgTopY so visible img top == bgTopY:
         // stackTop + (1 - imgTp) * stackHeight = bgTopY  →  imgTp = 1 - (bgTopY - stackTop) / stackHeight
         const imgTp = Math.max(0, Math.min(1, 1 - (bgTopY - stackTop) / stackHeight));
-        const img = workImgLayers[i].querySelector('img');
-        if (img) {
+        const inner = workImgLayers[i].querySelector('.proj-carousel') || workImgLayers[i].querySelector('img') || workImgLayers[i].querySelector('video');
+        if (inner) {
           if (imgTp <= 0) {
-            img.style.display = 'none';
+            inner.style.display = 'none';
           } else {
-            img.style.display = 'block';
-            img.style.top = `${(1 - imgTp) * 100}%`;
+            inner.style.display = 'block';
+            inner.style.top = `${(1 - imgTp) * 100}%`;
           }
         }
       }
