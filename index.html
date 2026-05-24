@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mia's Design Studio — Digital Designer</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -340,6 +341,10 @@
 
     .about-body { font-size: 15px; line-height: 1.85; color: var(--dark-text); }
     .about-body p + p { margin-top: 20px; }
+    .about-tools { margin-top: 20px; display: flex; flex-direction: column; gap: 7px; }
+    .about-tools-row { display: flex; gap: 10px; align-items: baseline; }
+    .about-tools-label { font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(248,248,244,0.35); white-space: nowrap; min-width: 90px; }
+    .about-tools-list { font-size: 11px; color: rgba(248,248,244,0.5); letter-spacing: 0.02em; }
 
     /* ─── WORK ────────────────────────────── */
     .work-section { position: relative; }
@@ -526,41 +531,11 @@
       width: 100%; height: 100%;
       object-fit: cover;
       opacity: 0;
-      transition: opacity 0.9s ease;
+      transition: opacity 0.9s ease, transform 0.45s ease;
     }
     .proj-slide.active { opacity: 1; }
 
-    .proj-carousel-overlay {
-      position: absolute;
-      inset: 0;
-      z-index: 20;
-      cursor: none;
-    }
 
-    .arrow-div {
-      background-color: #000;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      position: absolute;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.15s ease;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      color: #fff;
-    }
-    .arrow-div svg {
-      width: 28px;
-      height: 28px;
-      stroke: #fff;
-      fill: none;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
 
     .work-text-col { padding-left: 40px; padding-top: 40px; }
 
@@ -734,6 +709,25 @@
       letter-spacing: 0.04em;
     }
 
+    /* Slide dot indicators */
+    .work-slide-dots {
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 7px;
+      z-index: 30;
+      pointer-events: none;
+    }
+    .work-slide-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: rgba(248,248,244,0.28);
+      transition: background 0.25s ease;
+    }
+    .work-slide-dot.active { background: rgba(248,248,244,0.85); }
+
     /* ─── ANIMATIONS ──────────────────────── */
     @keyframes fadeDown {
       to { opacity: 1; transform: translateY(0); }
@@ -836,15 +830,15 @@
       <div class="hero-meta flex gap-16 mt-[72px]">
         <div class="hero-meta-item flex flex-col gap-[5px]">
           <span class="hero-meta-label">Discipline</span>
-          <span class="hero-meta-value">Digital Design</span>
+          <span class="hero-meta-value">Digital Design · AI-Assisted Coding</span>
         </div>
         <div class="hero-meta-item flex flex-col gap-[5px]">
           <span class="hero-meta-label">Focus</span>
-          <span class="hero-meta-value">Email Systems · UI · AI Tools</span>
+          <span class="hero-meta-value">Workflow Tools & Design Systems</span>
         </div>
         <div class="hero-meta-item flex flex-col gap-[5px]">
           <span class="hero-meta-label">Based in</span>
-          <span class="hero-meta-value">Available Worldwide</span>
+          <span class="hero-meta-value">California · Working Worldwide</span>
         </div>
       </div>
       <div class="hero-scroll-indicator flex items-center gap-[14px]">
@@ -859,15 +853,15 @@
       <div class="hero-meta flex gap-16 mt-[72px]">
         <div class="hero-meta-item flex flex-col gap-[5px]">
           <span class="hero-meta-label">Discipline</span>
-          <span class="hero-meta-value">Digital Design</span>
+          <span class="hero-meta-value">Digital Design · AI-Assisted Coding</span>
         </div>
         <div class="hero-meta-item flex flex-col gap-[5px]">
           <span class="hero-meta-label">Focus</span>
-          <span class="hero-meta-value">Email Systems · UI · AI Tools</span>
+          <span class="hero-meta-value">Workflow Tools & Design Systems</span>
         </div>
         <div class="hero-meta-item flex flex-col gap-[5px]">
           <span class="hero-meta-label">Based in</span>
-          <span class="hero-meta-value">Available Worldwide</span>
+          <span class="hero-meta-value">California · Working Worldwide</span>
         </div>
       </div>
       <div class="hero-scroll-indicator flex items-center gap-[14px]">
@@ -891,12 +885,18 @@
         <div class="reveal" style="transition-delay:0.08s">
           <p class="about-intro">A designer whose path evolved from fine art and spatial design into digital systems, email design, front-end thinking, and AI-assisted workflow tools.</p>
           <div class="about-tags flex flex-wrap gap-2">
-            <span class="tag">Digital Design</span>
-            <span class="tag">Web Design</span>
-            <span class="tag">Email Design</span>
-            <span class="tag">Brand Identity</span>
-            <span class="tag">Vibe Coding</span>
-            <span class="tag">Design System</span>
+            <span class="tag">Web / UI</span>
+            <span class="tag">Design Systems</span>
+            <span class="tag">Front-End Code</span>
+            <span class="tag">AI Workflow</span>
+            <span class="tag">Brand Experience</span>
+            <span class="tag">Motion</span>
+          </div>
+          <div class="about-tools">
+            <div class="about-tools-row"><span class="about-tools-label">Design</span><span class="about-tools-list">Figma · Adobe XD · Photoshop · Illustrator · InDesign</span></div>
+            <div class="about-tools-row"><span class="about-tools-label">Motion / Video</span><span class="about-tools-list">After Effects · Jitter · CapCut</span></div>
+            <div class="about-tools-row"><span class="about-tools-label">AI / Workflow</span><span class="about-tools-list">ChatGPT · Claude · MidJourney</span></div>
+            <div class="about-tools-row"><span class="about-tools-label">Code / Email</span><span class="about-tools-list">VS Code · GitHub · Salesforce Marketing Cloud · Litmus · Email on Acid</span></div>
           </div>
         </div>
         <div class="about-body reveal" style="transition-delay:0.18s">
@@ -926,7 +926,7 @@
             <div class="work-bg" style="background-image:url('images/TM-Email.png')"></div>
           </div>
           <div class="work-bg-clip scroll-driven">
-            <div class="work-bg" style="background-image:url('https://placehold.co/800x800/2a1a1a/444?text=.')"></div>
+            <div class="work-bg" style="background-image:url('images/andro.png')"></div>
           </div>
         </div>
         <div class="work-overlay"></div>
@@ -955,10 +955,7 @@
                 </div>
               </div>
               <div class="work-img-layer scroll-driven">
-                <div class="proj-carousel" data-no-auto>
-                  <video src="video/email.mp4"  class="proj-slide active" autoplay muted playsinline></video>
-                  <video src="video/email2.mp4" class="proj-slide"        autoplay muted playsinline data-rate="0.6"></video>
-                </div>
+                <video src="video/email3.mp4" autoplay muted playsinline loop style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></video>
               </div>
               <div class="work-img-layer scroll-driven">
                 <img src="images/TM-Email.png" alt="Corporate Email Campaigns">
@@ -970,6 +967,7 @@
                   <img src="images/folli.png"  class="proj-slide"        alt="Folli">
                 </div>
               </div>
+              <div class="work-slide-dots"></div>
             </div>
           </div>
 
@@ -1035,7 +1033,21 @@
         <h2 class="section-title">Contact</h2>
       </div>
       <p class="contact-cta reveal" style="transition-delay:0.10s">Thoughtful design, system-driven execution, measurable value.</p>
-      <div class="contact-links-row flex flex-wrap gap-14 mt-[72px] pt-10 reveal" style="transition-delay:0.20s">
+      <div class="about-tags flex flex-wrap gap-2 reveal" style="margin-top:32px;transition-delay:0.15s">
+        <span class="tag">Web / UI</span>
+        <span class="tag">Design Systems</span>
+        <span class="tag">Front-End Code</span>
+        <span class="tag">AI Workflow</span>
+        <span class="tag">Brand Experience</span>
+        <span class="tag">Motion</span>
+      </div>
+      <div class="about-tools reveal" style="transition-delay:0.20s">
+        <div class="about-tools-row"><span class="about-tools-label">Design</span><span class="about-tools-list">Figma · Adobe XD · Photoshop · Illustrator · InDesign</span></div>
+        <div class="about-tools-row"><span class="about-tools-label">Motion / Video</span><span class="about-tools-list">After Effects · Jitter · CapCut</span></div>
+        <div class="about-tools-row"><span class="about-tools-label">AI / Workflow</span><span class="about-tools-list">ChatGPT · Claude · MidJourney</span></div>
+        <div class="about-tools-row"><span class="about-tools-label">Code / Email</span><span class="about-tools-list">VS Code · GitHub · Salesforce Marketing Cloud · Litmus · Email on Acid</span></div>
+      </div>
+      <div class="contact-links-row flex flex-wrap gap-14 mt-[72px] pt-10 reveal" style="transition-delay:0.30s">
         <a href="https://www.linkedin.com/in/mia-pak-59216512a/" target="_blank" rel="noopener" class="contact-link-item flex flex-col gap-[7px] no-underline">
           <span class="contact-link-label">LinkedIn</span>
           <span class="contact-link-value">linkedin.com/in/mia</span>
@@ -1106,88 +1118,6 @@
       rafId = requestAnimationFrame(() => { update(); updateWork(); updateAbout(); updateActiveNav(); });
     }, { passive: true });
 
-    // Per-project carousel registry
-    const carousels = {};
-    document.querySelectorAll('.work-img-layer').forEach((layer, projIdx) => {
-      const carousel = layer.querySelector('.proj-carousel');
-      if (!carousel) return;
-      const slides = Array.from(carousel.querySelectorAll('.proj-slide'));
-      if (!slides.length) return;
-      carousels[projIdx] = { slides, idx: 0, timer: null, autoAdvance: !carousel.hasAttribute('data-no-auto') };
-    });
-
-    function carouselGo(projIdx, dir) {
-      const c = carousels[projIdx];
-      if (!c) return;
-      const prev = c.slides[c.idx];
-      prev.classList.remove('active');
-      if (prev.tagName === 'VIDEO') { prev.pause(); prev.currentTime = 0; }
-      c.idx = (c.idx + dir + c.slides.length) % c.slides.length;
-      const next = c.slides[c.idx];
-      next.classList.add('active');
-      if (next.tagName === 'VIDEO') next.play();
-    }
-
-    function resetCarouselTimer(projIdx) {
-      const c = carousels[projIdx];
-      if (!c || !c.autoAdvance) return;
-      clearInterval(c.timer);
-      c.timer = setInterval(() => carouselGo(projIdx, 1), 3500);
-    }
-
-    function stopCarousel(projIdx) {
-      const c = carousels[projIdx];
-      if (c) clearInterval(c.timer);
-    }
-
-    function resetCarouselToStart(projIdx) {
-      const c = carousels[projIdx];
-      if (!c) return;
-      c.slides[c.idx].classList.remove('active');
-      c.idx = 0;
-      c.slides[0].classList.add('active');
-      resetCarouselTimer(projIdx);
-    }
-
-    // For non-auto carousels: advance on video end
-    Object.entries(carousels).forEach(([projIdx, c]) => {
-      if (c.autoAdvance) return;
-      c.slides.forEach((slide, slideIdx) => {
-        if (slide.tagName === 'VIDEO') {
-          slide.addEventListener('ended', () => {
-            if (parseInt(projIdx) === activeProject) carouselGo(parseInt(projIdx), 1);
-          });
-        }
-      });
-    });
-
-    resetCarouselTimer(0);
-
-    // Cursor-following arrow overlay — sits above all img layers
-    const workImagesStackEl = document.querySelector('#work .work-images-stack');
-    const overlay  = document.createElement('div');
-    overlay.className = 'proj-carousel-overlay';
-    const arrowDiv = document.createElement('div');
-    arrowDiv.className = 'arrow-div';
-    overlay.appendChild(arrowDiv);
-    workImagesStackEl.appendChild(overlay);
-
-    const svgRight = `<svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>`;
-    const svgLeft  = `<svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>`;
-
-    overlay.addEventListener('mousemove', e => {
-      const r = overlay.getBoundingClientRect();
-      arrowDiv.style.left = (e.clientX - r.left) + 'px';
-      arrowDiv.style.top  = (e.clientY - r.top)  + 'px';
-      arrowDiv.style.opacity = '1';
-      arrowDiv.innerHTML = (e.clientX - r.left) > r.width / 2 ? svgRight : svgLeft;
-    });
-    overlay.addEventListener('mouseleave', () => { arrowDiv.style.opacity = '0'; });
-    overlay.addEventListener('click', e => {
-      const r = overlay.getBoundingClientRect();
-      carouselGo(activeProject, (e.clientX - r.left) > r.width / 2 ? 1 : -1);
-      resetCarouselTimer(activeProject);
-    });
 
     // Custom video playback rates
     document.querySelectorAll('video[data-rate]').forEach(v => {
@@ -1195,7 +1125,7 @@
       v.addEventListener('loadedmetadata', () => { v.playbackRate = parseFloat(v.dataset.rate); });
     });
 
-    // Nav letter jump — wrap each char in a span with staggered delay
+// Nav letter jump — wrap each char in a span with staggered delay
     document.querySelectorAll('.nav-links a').forEach(link => {
       link.innerHTML = [...link.textContent].map((ch, i) =>
         ch === ' '
@@ -1217,24 +1147,85 @@
 
     // Work section: scroll-driven project transitions
     const workSection  = document.getElementById('work');
-    const workBgs      = workSection.querySelectorAll('.work-bg');
     const workBgClips  = workSection.querySelectorAll('.work-bg-clip.scroll-driven');
     const workImgLayers= workSection.querySelectorAll('.work-img-layer');
     const workTxtLayers= workSection.querySelectorAll('.work-text-layer');
     const workFill     = workSection.querySelector('.work-progress-fill');
     const workLabel    = workSection.querySelector('.work-progress-label');
-    let activeProject  = 0;
-    let stackTop = null, stackHeight = null;
+
+    // Per-project slide arrays
+    const projSlides = Array.from(workImgLayers).map(layer => {
+      const carousel = layer.querySelector('.proj-carousel');
+      if (carousel) return Array.from(carousel.querySelectorAll('.proj-slide'));
+      const el = layer.querySelector('img') || layer.querySelector('video');
+      return el ? [el] : [];
+    });
+    const slideCounts = projSlides.map(s => Math.max(s.length, 1));
+
+    // Cumulative scroll start per project (units of innerHeight)
+    // Each project gets slideCount + 1 units: first slide dwells for 2 units, rest get 1 each
+    const DWELL = 1; // extra scroll units for first slide of each project
+    const projScrollStart = [];
+    let _acc = 0;
+    slideCounts.forEach(n => { projScrollStart.push(_acc); _acc += n + DWELL; });
+    workSection.querySelector('.work-scroll-space').style.height = (_acc + 1) * 100 + 'vh';
+
+    // Dot indicators
+    const dotsEl = workSection.querySelector('.work-slide-dots');
+    function buildDots(projIdx) {
+      const n = slideCounts[projIdx];
+      dotsEl.innerHTML = '';
+      dotsEl.style.display = (n > 1 && projIdx !== 2) ? 'flex' : 'none';
+      for (let i = 0; i < n; i++) {
+        const d = document.createElement('span');
+        d.className = 'work-slide-dot';
+        dotsEl.appendChild(d);
+      }
+    }
+    function updateDots(slideIdx) {
+      Array.from(dotsEl.children).forEach((d, i) => d.classList.toggle('active', i === slideIdx));
+    }
+
+    // Active state
+    let activeProject = 0;
+    let currentSlideIdx = 0;
+
+    function setSlide(projIdx, slideIdx) {
+      projSlides[projIdx].forEach((s, i) => {
+        const now = i === slideIdx, was = s.classList.contains('active');
+        if (now === was) return;
+        if (now) { s.classList.add('active'); if (s.tagName === 'VIDEO') s.play(); }
+        else      { s.classList.remove('active'); if (s.tagName === 'VIDEO') { s.pause(); s.currentTime = 0; } }
+      });
+      currentSlideIdx = slideIdx;
+      updateDots(slideIdx);
+    }
 
     function switchToProject(idx) {
       workTxtLayers[activeProject].classList.remove('active');
       workTxtLayers[idx].classList.add('active');
-      stopCarousel(activeProject);
       activeProject = idx;
       if (workLabel) workLabel.textContent = `0${idx + 1} / 05`;
-      if (carousels[idx]) resetCarouselTimer(idx);
+      buildDots(idx);
     }
 
+    // Video ended → scroll to next slide
+    Array.from(workImgLayers).forEach((layer, projIdx) => {
+      projSlides[projIdx].forEach(slide => {
+        if (slide.tagName !== 'VIDEO') return;
+        slide.addEventListener('ended', () => {
+          if (projIdx !== activeProject) return;
+          const next = Math.min(currentSlideIdx + 1, slideCounts[projIdx] - 1);
+          if (next === currentSlideIdx) return;
+          setTimeout(() => {
+            const wTop = workSection.getBoundingClientRect().top + window.scrollY;
+            window.scrollTo({ top: wTop + (projScrollStart[projIdx] + next) * innerHeight, behavior: 'smooth' });
+          }, 2000);
+        });
+      });
+    });
+
+    let stackTop = null, stackHeight = null;
     let wasInWork = false;
 
     function updateWork() {
@@ -1243,55 +1234,51 @@
       const scrollable = workSection.offsetHeight - innerHeight;
       const isInWork = scrolled >= 0 && scrolled <= scrollable;
       nav.classList.toggle('nav-work', isInWork);
-      if (scrolled < 0 || scrolled > scrollable) {
-        wasInWork = false;
-        return;
-      }
+      if (scrolled < 0 || scrolled > scrollable) { wasInWork = false; return; }
 
-      // Reset carousel to first slide on every entry into work section
       if (!wasInWork) {
         wasInWork = true;
-        resetCarouselToStart(0);
+        buildDots(0);
+        setSlide(0, 0);
       }
 
-      const progress = scrolled / scrollable;
-
-      // Cache image box position relative to viewport (sticky is at top:0 when active)
       if (stackTop === null) {
         const r = workSection.querySelector('.work-images-stack').getBoundingClientRect();
-        stackTop    = r.top;
-        stackHeight = r.height;
+        stackTop = r.top; stackHeight = r.height;
       }
 
-      // Scroll-driven: bg slides from bottom; img top edge aligns with bg top edge at all times
-      for (let i = 1; i <= 4; i++) {
-        const bgTp   = Math.max(0, Math.min(1, (scrolled - i * innerHeight) / innerHeight));
-        const bgTopY = (1 - bgTp) * innerHeight;   // bg top edge y in viewport
+      const scrollUnits = scrolled / innerHeight;
 
+      // Active project (switches at 50% of transition)
+      let newProject = 0;
+      for (let i = 1; i < projScrollStart.length; i++) {
+        if (scrollUnits >= projScrollStart[i] + 0.5) newProject = i;
+      }
+      if (newProject !== activeProject) switchToProject(newProject);
+
+      // Active slide within current project (first slide dwells for 1+DWELL units)
+      const localUnits = scrollUnits - projScrollStart[activeProject];
+      const dwellEnd = 1 + DWELL;
+      const newSlide = localUnits < dwellEnd
+        ? 0
+        : Math.min(1 + Math.floor(localUnits - dwellEnd), slideCounts[activeProject] - 1);
+      if (newSlide !== currentSlideIdx) setSlide(activeProject, newSlide);
+
+      // Background transitions (projects 1–4)
+      for (let i = 1; i <= 4; i++) {
+        const bgTp   = Math.max(0, Math.min(1, scrollUnits - projScrollStart[i]));
+        const bgTopY = (1 - bgTp) * innerHeight;
         workBgClips[i - 1].style.transform = `translateY(${bgTopY}px)`;
 
-        // imgTp derived from bgTopY so visible img top == bgTopY:
-        // stackTop + (1 - imgTp) * stackHeight = bgTopY  →  imgTp = 1 - (bgTopY - stackTop) / stackHeight
         const imgTp = Math.max(0, Math.min(1, 1 - (bgTopY - stackTop) / stackHeight));
         const inner = workImgLayers[i].querySelector('.proj-carousel') || workImgLayers[i].querySelector('img') || workImgLayers[i].querySelector('video');
         if (inner) {
-          if (imgTp <= 0) {
-            inner.style.display = 'none';
-          } else {
-            inner.style.display = 'block';
-            inner.style.top = `${(1 - imgTp) * 100}%`;
-          }
+          if (imgTp <= 0) { inner.style.display = 'none'; }
+          else { inner.style.display = 'block'; inner.style.top = `${(1 - imgTp) * 100}%`; }
         }
       }
 
-      // Text switches at 50% of each project's transition (simple fade)
-      let currentTextProject = 0;
-      for (let i = 1; i <= 4; i++) {
-        if ((scrolled - i * innerHeight) / innerHeight >= 0.5) currentTextProject = i;
-      }
-      if (currentTextProject !== activeProject) switchToProject(currentTextProject);
-
-      if (workFill) workFill.style.width = `${progress * 100}%`;
+      if (workFill) workFill.style.width = `${(scrolled / scrollable) * 100}%`;
     }
 
     // About section blur-out
