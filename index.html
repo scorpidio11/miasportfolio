@@ -131,7 +131,7 @@
       text-transform: uppercase;
       text-decoration: none;
       color: var(--text);
-      opacity: 0.5;
+      opacity: 1;
       position: relative;
       transition: opacity 0.2s ease, color 0.35s ease;
     }
@@ -656,6 +656,9 @@
     .contact .section-header { border-bottom-color: var(--border-dark); }
     .contact .section-num { color: var(--dark-text); }
     .contact .section-title { color: var(--dark-text); }
+    .contact .about-tools-label { color: rgba(248,248,244,0.65); }
+    .contact .about-tools-list { color: rgba(248,248,244,0.9); }
+    .contact .tag { color: #fff; border-color: rgba(248,248,244,0.45); }
 
     .contact-cta {
       font-family: var(--font-display);
@@ -960,7 +963,7 @@
                 </div>
               </div>
               <div class="work-img-layer scroll-driven">
-                <video src="video/email3.mp4" autoplay muted playsinline loop style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></video>
+                <video src="video/email3.mp4" autoplay muted playsinline loop style="position:absolute;inset:0;height:100%;object-fit:cover;"></video>
               </div>
               <div class="work-img-layer scroll-driven">
                 <img src="images/TM-Email.png" alt="Corporate Email Campaigns">
@@ -1279,8 +1282,8 @@
         const imgTp = Math.max(0, Math.min(1, 1 - (bgTopY - stackTop) / stackHeight));
         const inner = workImgLayers[i].querySelector('.proj-carousel') || workImgLayers[i].querySelector('img') || workImgLayers[i].querySelector('video');
         if (inner) {
-          if (imgTp <= 0) { inner.style.display = 'none'; }
-          else { inner.style.display = 'block'; inner.style.top = `${(1 - imgTp) * 100}%`; }
+          if (imgTp <= 0) { inner.style.display = 'none'; workImgLayers[i].style.background = ''; }
+          else { inner.style.display = 'block'; inner.style.top = `${(1 - imgTp) * 100}%`; workImgLayers[i].style.background = '#080808'; }
         }
       }
 
