@@ -1236,6 +1236,7 @@
 
     let stackTop = null, stackHeight = null;
     let wasInWork = false;
+    window.addEventListener('resize', () => { stackTop = null; stackHeight = null; wasInWork = false; }, { passive: true });
 
     function updateWork() {
       const rect = workSection.getBoundingClientRect();
@@ -1282,8 +1283,8 @@
         const imgTp = Math.max(0, Math.min(1, 1 - (bgTopY - stackTop) / stackHeight));
         const inner = workImgLayers[i].querySelector('.proj-carousel') || workImgLayers[i].querySelector('img') || workImgLayers[i].querySelector('video');
         if (inner) {
-          if (imgTp <= 0) { inner.style.display = 'none'; workImgLayers[i].style.background = ''; }
-          else { inner.style.display = 'block'; inner.style.top = `${(1 - imgTp) * 100}%`; workImgLayers[i].style.background = '#080808'; }
+          if (imgTp <= 0) { inner.style.display = 'none'; }
+          else { inner.style.display = 'block'; inner.style.top = `${(1 - imgTp) * 100}%`; }
         }
       }
 
